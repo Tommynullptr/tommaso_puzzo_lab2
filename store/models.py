@@ -8,6 +8,7 @@ from django.contrib.auth.models import AbstractBaseUser
 
 
 class Product(models.Model):
+
     id = models.IntegerField(primary_key=True, unique=True, )
     name = models.CharField(max_length=255)
     price = models.FloatField()
@@ -16,6 +17,7 @@ class Product(models.Model):
 
 
 class CustomUser(AbstractBaseUser, models.Model):
+
     username = models.CharField(max_length=255, primary_key=True, unique=True)
     firstname = models.CharField(max_length=255)
     lastname = models.CharField(max_length=255)
@@ -29,12 +31,14 @@ class CustomUser(AbstractBaseUser, models.Model):
 
 
 class Cart(models.Model):
+
     listofproducts = models.ManyToManyField(Product)
     totalprice = models.FloatField()
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
 
 
 class Order(models.Model):
+
     listofproducts = models.ManyToManyField(Product)
     totalprice = models.FloatField()
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)

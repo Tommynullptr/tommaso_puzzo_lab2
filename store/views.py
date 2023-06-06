@@ -80,7 +80,11 @@
 
 
 from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate, logout
+
 from .models import Product, Cart, Order
+from .forms import UserFormRegister, UserFormLogin
+
 
 # Product Listing View
 def product_list(request):
@@ -131,3 +135,34 @@ def checkout(request):
 # Order Confirmation View
 def order_confirmation(request):
     return render(request, 'order_confirmation.html')
+
+def register(request):
+    if request.method == 'POST':
+        form = UserFormRegister(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('product_list')
+    else:
+        form = UserFormRegister()
+    return render(request, 'registration/register.html', {'form': form})
+
+def user_login(request):
+    if request.method == 'POST':
+        form = UserFormLogin(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('product_list')
+            else:
+                form.add_error(None, 'Invalid username or password.')
+    else:
+        form = UserFormLogin()
+    return render(request, 'registration/login.html', {'form': form})
+
+def user_logout(request):
+    logout(request)
+    return redirect('product_list')
