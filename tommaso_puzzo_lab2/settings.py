@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_REDIRECT_URL = 'index.html'
+
+LOGOUT_REDIRECT_URL = 'user.html'
 
 # Application definition
 
@@ -55,7 +58,7 @@ ROOT_URLCONF = 'tommaso_puzzo_lab2.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -100,6 +103,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+AUTH_USER_MODEL = "store.CustomUser"
+
+# Print the entire DATABASES dictionary
+#print(DATABASES)
+
+# Access the settings for the default database
+#print(DATABASES['default'])
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

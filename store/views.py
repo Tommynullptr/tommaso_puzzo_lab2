@@ -4,7 +4,7 @@ from django.views import View
 from django.views.generic import FormView, ListView, DetailView
 
 from store.models import Cart, Order, Product
-#from store.forms import UserFormRegister, UserFormLogin
+from store.forms import UserFormRegister, UserFormLogin
 
 
 # Create your views here.
