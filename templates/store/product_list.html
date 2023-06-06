@@ -2,13 +2,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+    <form method="GET">
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <select name="category" id="category" class="form-control">
+                <option value="">All</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <!-- Add other filter options, such as price range, brand, rating -->
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+
     <h1>Product List</h1>
     <ul>
     {% for product in products %}
-        <li>
-            <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
-            <!-- Add more product details if needed -->
-        </li>
+        <!-- Display the filtered products -->
+        <div class="product">
+            <li>
+                <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
+                <!-- Add more product details if needed -->
+            </li>
+        </div>
     {% endfor %}
     </ul>
 {% endblock %}
