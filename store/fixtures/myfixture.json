@@ -1,0 +1,14 @@
+
+
+
+[
+  {
+    "model": "store.product",
+    "pk": 1,
+    "fields": {
+      "name": "Product 1",
+      "description": "Product 1 description",
+      "price": 10.00
+    }
+  }
+]
