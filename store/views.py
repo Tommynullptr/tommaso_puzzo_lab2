@@ -82,22 +82,40 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 
-from .models import Product, Cart, Order
+from .models import Product, Cart, Order, Category
 from .forms import UserFormRegister, UserFormLogin
 
 
+# Home View
+def home(request):
+
+    return render(request, 'home.html')
+
 # Product Listing View
 def product_list(request):
+
     products = Product.objects.all()
-    return render(request, 'product_list.html', {'products': products})
+    category_id = request.GET.get('category')
+
+    if category_id:
+        products = products.filter(category_id=category_id)
+
+    context = {
+        'products': products,
+        'categories': Category.objects.all(),
+    }
+
+    return render(request, 'product_list.html', context, {'products': products})
 
 # Product Detail View
 def product_detail(request, product_id):
+
     product = Product.objects.get(id=product_id)
     return render(request, 'product_detail.html', {'product': product})
 
 # Add Item to Cart View
 def add_to_cart(request, product_id):
+
     if request.method == 'POST':
         product = Product.objects.get(id=product_id)
         cart, created = Cart.objects.get_or_create(user=request.user)
@@ -108,11 +126,13 @@ def add_to_cart(request, product_id):
 
 # Cart View
 def cart(request):
+
     cart = Cart.objects.get(user=request.user)
     return render(request, 'cart.html', {'cart': cart})
 
 # Remove Item from Cart View
 def remove_from_cart(request, product_id):
+
     if request.method == 'POST':
         product = Product.objects.get(id=product_id)
         cart = Cart.objects.get(user=request.user)
@@ -123,6 +143,7 @@ def remove_from_cart(request, product_id):
 
 # Checkout View
 def checkout(request):
+
     if request.method == 'POST':
         cart = Cart.objects.get(user=request.user)
         order = Order.objects.create(user=request.user, totalprice=cart.totalprice)
@@ -134,35 +155,47 @@ def checkout(request):
 
 # Order Confirmation View
 def order_confirmation(request):
+
     return render(request, 'order_confirmation.html')
 
 def register(request):
+
     if request.method == 'POST':
         form = UserFormRegister(request.POST)
+
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('product_list')
+
     else:
         form = UserFormRegister()
+
     return render(request, 'registration/register.html', {'form': form})
 
 def user_login(request):
+
     if request.method == 'POST':
         form = UserFormLogin(request.POST)
+
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             user = authenticate(username=username, password=password)
+
             if user is not None:
                 login(request, user)
                 return redirect('product_list')
+
             else:
                 form.add_error(None, 'Invalid username or password.')
+
     else:
         form = UserFormLogin()
+
     return render(request, 'registration/login.html', {'form': form})
 
 def user_logout(request):
+
     logout(request)
     return redirect('product_list')

@@ -7,6 +7,10 @@ from django.contrib.auth.models import AbstractBaseUser
 # TODO: CustomUserManager? [slide-5 pag 12]
 
 
+class Category(models.Model):
+
+    name = models.CharField(max_length=255)
+
 class Product(models.Model):
 
     id = models.IntegerField(primary_key=True, unique=True, )
@@ -14,6 +18,7 @@ class Product(models.Model):
     price = models.FloatField()
     stock = models.IntegerField()
     image_url = models.CharField(max_length=2083)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
 
 
 class CustomUser(AbstractBaseUser, models.Model):
