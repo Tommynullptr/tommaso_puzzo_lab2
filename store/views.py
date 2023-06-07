@@ -127,6 +127,9 @@ def add_to_cart(request, product_id):
 # Cart View
 def cart(request):
 
+    if not request.user.is_authenticated:
+        return redirect('login')
+
     cart = Cart.objects.get(user=request.user)
     return render(request, 'store/cart.html', {'cart': cart})
 
@@ -171,7 +174,7 @@ def register(request):
     else:
         form = UserFormRegister()
 
-    return render(request, 'registration/register.html', {'form': form})
+    return render(request, 'store/registration/register.html', {'form': form})
 
 def user_login(request):
 
@@ -193,11 +196,11 @@ def user_login(request):
     else:
         form = UserFormLogin()
 
-    return render(request, 'registration/login.html', {'form': form})
+    return render(request, 'store/registration/login.html', {'form': form})
 
 def user_logout(request):
 
     logout(request)
-    return redirect('product_list')
+    return redirect('home')
 
 #TODO: However, please note that the add_to_cart and remove_from_cart views are only accessible for authenticated users. You may want to consider adding authentication checks and handling scenarios where a user is not authenticated.
