@@ -95,14 +95,15 @@ def home(request):
 def product_list(request):
 
     products = Product.objects.all()
-    category_id = request.GET.get('category')
+    category_name = request.GET.get('category')
 
-    if category_id:
-        products = products.filter(category_id=category_id)
+    if category_name:
+        products = products.filter(category__name=category_name)
 
     context = {
         'products': products,
         'categories': Category.objects.all(),
+        'current_category': category_name if category_name else 'All Products',
     }
 
     return render(request, 'store/product_list.html', context)
