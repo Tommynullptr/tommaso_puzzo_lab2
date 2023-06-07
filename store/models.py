@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 
 # Create your models here.
@@ -42,7 +42,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
 
 
-class CustomUser(AbstractBaseUser):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     username = models.CharField(max_length=255, primary_key=True, unique=True)
     firstname = models.CharField(max_length=255)
@@ -51,8 +51,16 @@ class CustomUser(AbstractBaseUser):
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     state = models.CharField(max_length=255)
+
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+
     USERNAME_FIELD = 'username'
+    EMAIL_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
     objects = CustomUserManager()
+
     # should own a cart
     # cart = models.ForeignKey('Cart', on_delete=models.CASCADE, null=True)
 
