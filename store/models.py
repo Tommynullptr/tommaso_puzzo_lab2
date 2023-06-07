@@ -30,7 +30,7 @@ class CustomUserManager(BaseUserManager):
 
 class Category(models.Model):
 
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, primary_key=True, unique=True)
 
 class Product(models.Model):
 
@@ -40,6 +40,7 @@ class Product(models.Model):
     stock = models.IntegerField()
     image_url = models.CharField(max_length=2083)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
+    description = models.CharField(max_length=255, null=True)
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):

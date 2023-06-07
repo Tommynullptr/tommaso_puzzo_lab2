@@ -1,0 +1,14 @@
+[
+  {
+    "model": "store.category",
+    "fields": {
+      "name": "Category 1"
+    }
+  },
+  {
+    "model": "store.category",
+    "fields": {
+      "name": "Category 2"
+    }
+  }
+]
