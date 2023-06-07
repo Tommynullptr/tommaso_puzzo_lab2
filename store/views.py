@@ -199,3 +199,5 @@ def user_logout(request):
 
     logout(request)
     return redirect('product_list')
+
+#TODO: However, please note that the add_to_cart and remove_from_cart views are only accessible for authenticated users. You may want to consider adding authentication checks and handling scenarios where a user is not authenticated.

@@ -1,10 +1,31 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
 # Create your models here.
 
-# TODO: CustomUserManager? [slide-5 pag 12]
+# CustomUserManager [slide-5 pag 12]
+
+class CustomUserManager(BaseUserManager):
+    def create_user(self, username, password=None, **extra_fields):
+        """
+        Creates and saves a new user with the given username and password.
+        """
+        if not username:
+            raise ValueError("The Username field must be set.")
+
+        user = self.model(username=username, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username, password=None, **extra_fields):
+        """
+        Creates and saves a new superuser with the given username and password.
+        """
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        return self.create_user(username, password, **extra_fields)
 
 
 class Category(models.Model):
@@ -21,7 +42,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
 
 
-class CustomUser(AbstractBaseUser, models.Model):
+class CustomUser(AbstractBaseUser):
 
     username = models.CharField(max_length=255, primary_key=True, unique=True)
     firstname = models.CharField(max_length=255)
@@ -31,6 +52,7 @@ class CustomUser(AbstractBaseUser, models.Model):
     city = models.CharField(max_length=255)
     state = models.CharField(max_length=255)
     USERNAME_FIELD = 'username'
+    objects = CustomUserManager()
     # should own a cart
     # cart = models.ForeignKey('Cart', on_delete=models.CASCADE, null=True)
 
