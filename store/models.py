@@ -8,9 +8,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, password=None, **extra_fields):
-        """
-        Creates and saves a new user with the given username and password.
-        """
+
         if not username:
             raise ValueError("The Username field must be set.")
 
@@ -20,9 +18,7 @@ class CustomUserManager(BaseUserManager):
         return user
 
     def create_superuser(self, username, password=None, **extra_fields):
-        """
-        Creates and saves a new superuser with the given username and password.
-        """
+
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         return self.create_user(username, password, **extra_fields)
@@ -62,9 +58,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
-    # should own a cart
-    # cart = models.ForeignKey('Cart', on_delete=models.CASCADE, null=True)
-
 
 class Cart(models.Model):
 
@@ -79,5 +72,5 @@ class Order(models.Model):
     totalprice = models.FloatField()
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
 
-# TODO: alternative to manytomanyfield: add a field to the product model that is a list of users who have it in their cart and use a queryset
+#alternative to manytomanyfield: add a field to the product model that is a list of users who have it in their cart and use a queryset
 
