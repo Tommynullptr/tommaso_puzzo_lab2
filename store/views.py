@@ -89,7 +89,7 @@ from .forms import UserFormRegister, UserFormLogin
 # Home View
 def home(request):
 
-    return render(request, 'home.html')
+    return render(request, 'store/home.html')
 
 # Product Listing View
 def product_list(request):
@@ -105,13 +105,13 @@ def product_list(request):
         'categories': Category.objects.all(),
     }
 
-    return render(request, 'product_list.html', context)
+    return render(request, 'store/product_list.html', context)
 
 # Product Detail View
 def product_detail(request, product_id):
 
     product = Product.objects.get(id=product_id)
-    return render(request, 'product_detail.html', {'product': product})
+    return render(request, 'store/product_detail.html', {'product': product})
 
 # Add Item to Cart View
 def add_to_cart(request, product_id):
@@ -128,7 +128,7 @@ def add_to_cart(request, product_id):
 def cart(request):
 
     cart = Cart.objects.get(user=request.user)
-    return render(request, 'cart.html', {'cart': cart})
+    return render(request, 'store/cart.html', {'cart': cart})
 
 # Remove Item from Cart View
 def remove_from_cart(request, product_id):
@@ -156,7 +156,7 @@ def checkout(request):
 # Order Confirmation View
 def order_confirmation(request):
 
-    return render(request, 'order_confirmation.html')
+    return render(request, 'store/order_confirmation.html')
 
 def register(request):
 
