@@ -2,6 +2,7 @@
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 
 from .models import Product, Cart, Order, Category
 from .forms import UserFormRegister, UserFormLogin
@@ -36,6 +37,7 @@ def product_detail(request, product_id):
     return render(request, 'store/product_detail.html', {'product': product})
 
 # Add Item to Cart View
+@login_required(login_url='login')
 def add_to_cart(request, product_id):
 
     if request.method == 'POST':
@@ -46,11 +48,12 @@ def add_to_cart(request, product_id):
         cart.save()
         return redirect('cart')
 
-# Cart View
-def cart(request):
+    else:
+        return redirect('home')
 
-    if not request.user.is_authenticated:
-        return redirect('login')
+# Cart View
+@login_required(login_url='login')
+def cart(request):
 
     cart = Cart.objects.get(user=request.user)
     return render(request, 'store/cart.html', {'cart': cart})
