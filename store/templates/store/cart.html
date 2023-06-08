@@ -20,4 +20,5 @@
         {% csrf_token %}
         <button type="submit">Checkout</button>
     </form>
+    <a href="{% url 'product_list' %}">Continue Shopping</a>
 {% endblock %}

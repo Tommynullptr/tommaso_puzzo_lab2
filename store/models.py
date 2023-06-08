@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
@@ -30,7 +31,7 @@ class Category(models.Model):
 
 class Product(models.Model):
 
-    id = models.IntegerField(primary_key=True, unique=True, )
+    id = models.IntegerField(primary_key=True, unique=True)
     name = models.CharField(max_length=255)
     price = models.FloatField()
     stock = models.IntegerField()
@@ -62,7 +63,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 class Cart(models.Model):
 
     listofproducts = models.ManyToManyField(Product)
-    totalprice = models.FloatField()
+    totalprice = models.FloatField(null=False, default=0)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
 
 
