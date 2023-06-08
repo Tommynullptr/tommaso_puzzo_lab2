@@ -27,9 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_REDIRECT_URL = 'home.html'
+LOGIN_REDIRECT_URL = 'home'
 
-LOGOUT_REDIRECT_URL = 'home.html'
+LOGOUT_REDIRECT_URL = 'home'
 
 # Application definition
 
@@ -105,6 +105,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 AUTH_USER_MODEL = "store.CustomUser"
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend'
+]
 
 # Print the entire DATABASES dictionary
 #print(DATABASES)
