@@ -7,12 +7,12 @@ from .models import Product, Cart, Order, Category
 from .forms import UserFormRegister, UserFormLogin
 
 
-# Home View
+
 def home(request):
 
     return render(request, 'store/home.html')
 
-# Product Listing View
+
 def product_list(request):
 
     products = Product.objects.all()
@@ -29,13 +29,13 @@ def product_list(request):
 
     return render(request, 'store/product_list.html', context)
 
-# Product Detail View
+
 def product_detail(request, product_id):
 
     product = Product.objects.get(id=product_id)
     return render(request, 'store/product_detail.html', {'product': product})
 
-# Add Item to Cart View
+
 @login_required(login_url='login')
 def add_to_cart(request, product_id):
 
@@ -50,14 +50,14 @@ def add_to_cart(request, product_id):
     else:
         return redirect('home')
 
-# Cart View
+
 @login_required(login_url='login')
 def cart(request):
 
     cart = Cart.objects.get(user=request.user)
     return render(request, 'store/cart.html', {'cart': cart})
 
-# Remove Item from Cart View
+
 def remove_from_cart(request, product_id):
 
     if request.method == 'POST':
@@ -68,7 +68,7 @@ def remove_from_cart(request, product_id):
         cart.save()
         return redirect('cart')
 
-# Checkout View
+
 def checkout(request):
 
     if request.method == 'POST':
@@ -80,7 +80,7 @@ def checkout(request):
         cart.save()
         return redirect('order_confirmation')
 
-# Order Confirmation View
+
 def order_confirmation(request):
 
     return render(request, 'store/order_confirmation.html')
@@ -126,5 +126,3 @@ def user_logout(request):
 
     logout(request)
     return redirect('home')
-
-#TODO: However, please note that the add_to_cart and remove_from_cart views are only accessible for authenticated users. You may want to consider adding authentication checks and handling scenarios where a user is not authenticated.

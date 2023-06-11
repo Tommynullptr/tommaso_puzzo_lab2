@@ -7,7 +7,6 @@
     {% for product in cart.listofproducts.all %}
         <li>
             {{ product.name }}
-            <!-- Add more product details if needed -->
             <form action="{% url 'remove_from_cart' product.id %}" method="post">
                 {% csrf_token %}
                 <button type="submit">Remove</button>
