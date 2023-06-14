@@ -1,4 +1,4 @@
-
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -39,6 +39,11 @@ def product_detail(request, product_id):
 @login_required(login_url='login')
 def add_to_cart(request, product_id):
 
+    #if stock = 0, don't add to cart
+    if Product.objects.get(id=product_id).stock == 0:
+        #print a message saying that the product is out of stock
+        return HttpResponse('This product is out of stock <a href="/products">Go back</a>')
+
     if request.method == 'POST':
         product = Product.objects.get(id=product_id)
         cart, created = Cart.objects.get_or_create(user=request.user)
@@ -78,6 +83,12 @@ def checkout(request):
         cart.listofproducts.clear()
         cart.totalprice = 0
         cart.save()
+
+        #remove products from product stock
+        for product in order.listofproducts.all():
+            product.stock -= 1
+            product.save()
+
         return redirect('order_confirmation')
 
 
