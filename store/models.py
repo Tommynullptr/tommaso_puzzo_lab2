@@ -1,6 +1,6 @@
 
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, User
 
 
 # Create your models here.
@@ -40,38 +40,18 @@ class Product(models.Model):
     description = models.CharField(max_length=255, null=True)
 
 
-class CustomUser(AbstractBaseUser, PermissionsMixin):
-
-    username = models.CharField(max_length=255, primary_key=True, unique=True)
-    firstname = models.CharField(max_length=255)
-    lastname = models.CharField(max_length=255)
-    password = models.CharField(max_length=255)
-    address = models.CharField(max_length=255)
-    city = models.CharField(max_length=255)
-    state = models.CharField(max_length=255)
-
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
-
-    USERNAME_FIELD = 'username'
-    EMAIL_FIELD = 'email'
-    REQUIRED_FIELDS = []
-
-    objects = CustomUserManager()
-
-
 class Cart(models.Model):
 
     listofproducts = models.ManyToManyField(Product)
     totalprice = models.FloatField(null=False, default=0)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 
 class Order(models.Model):
 
     listofproducts = models.ManyToManyField(Product)
     totalprice = models.FloatField()
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 #alternative to manytomanyfield: add a field to the product model that is a list of users who have it in their cart and use a queryset
 

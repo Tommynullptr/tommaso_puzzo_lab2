@@ -1,10 +1,11 @@
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 
 from .models import Product, Cart, Order, Category
-from .forms import UserFormRegister, UserFormLogin
+from .forms import UserFormLogin #UserFormRegister
 
 
 
@@ -99,7 +100,7 @@ def order_confirmation(request):
 def register(request):
 
     if request.method == 'POST':
-        form = UserFormRegister(request.POST)
+        form = UserCreationForm(request.POST)
 
         if form.is_valid():
             user = form.save()
@@ -107,14 +108,14 @@ def register(request):
             return redirect('product_list')
 
     else:
-        form = UserFormRegister()
+        form = UserCreationForm()
 
     return render(request, 'store/registration/register.html', {'form': form})
 
 def user_login(request):
 
     if request.method == 'POST':
-        form = UserFormLogin(request.POST)
+        form = AuthenticationForm(data=request.POST)
 
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -129,7 +130,7 @@ def user_login(request):
                 form.add_error(None, 'Invalid username or password.')
 
     else:
-        form = UserFormLogin()
+        form = AuthenticationForm()
 
     return render(request, 'store/registration/login.html', {'form': form})
 
