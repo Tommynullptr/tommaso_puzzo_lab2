@@ -65,7 +65,6 @@ def cart(request):
         messages.info(request, "Your cart is empty")
         return redirect('home')
 
-    cart = Cart.objects.get(user=request.user)
     return render(request, 'store/cart.html', {'cart': cart})
 
 
