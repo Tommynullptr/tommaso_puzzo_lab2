@@ -1,5 +1,6 @@
+from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -122,7 +123,7 @@ def user_login(request):
 
             if user is not None:
                 login(request, user)
-                return redirect('product_list')
+                return redirect('home')
 
             else:
                 form.add_error(None, 'Invalid username or password.')
@@ -135,4 +136,5 @@ def user_login(request):
 def user_logout(request):
 
     logout(request)
+    messages.success(request, 'You have successfully logged out.')
     return redirect('home')

@@ -10,5 +10,15 @@
     <a href="{% url 'product_list' %}" class="btn btn-primary">View Products</a>
     <a href="{% url 'cart' %}" class="btn btn-primary">Cart</a>
     <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+    <br>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
 
 {% endblock %}
