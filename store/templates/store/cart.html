@@ -1,8 +1,11 @@
 <!-- cart.html -->
+
 {% extends 'store/base.html' %}
 
 {% block content %}
+
     <h1>Cart</h1>
+
     <ul>
     {% for product in cart.listofproducts.all %}
         <li>
@@ -14,10 +17,14 @@
         </li>
     {% endfor %}
     </ul>
+
     <p>Total Price: ${{ cart.totalprice }}</p>
+
     <form action="{% url 'checkout' %}" method="post">
         {% csrf_token %}
         <button type="submit">Checkout</button>
     </form>
+
     <a href="{% url 'product_list' %}">Continue Shopping</a>
+
 {% endblock %}

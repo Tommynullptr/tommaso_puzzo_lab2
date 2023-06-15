@@ -1,7 +1,5 @@
-
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, User
-
+from django.contrib.auth.models import BaseUserManager, PermissionsMixin, User
 
 # Create your models here.
 
@@ -52,6 +50,3 @@ class Order(models.Model):
     listofproducts = models.ManyToManyField(Product)
     totalprice = models.FloatField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
-#alternative to manytomanyfield: add a field to the product model that is a list of users who have it in their cart and use a queryset
-

@@ -5,8 +5,6 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 
 from .models import Product, Cart, Order, Category
-from .forms import UserFormLogin #UserFormRegister
-
 
 
 def home(request):

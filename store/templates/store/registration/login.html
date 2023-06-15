@@ -1,8 +1,11 @@
 <!-- login.html -->
+
 {% extends 'store/base.html' %}
 
 {% block content %}
+
     <h1>User Login</h1>
+
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
@@ -10,4 +13,5 @@
         <a href="{% url 'product_list' %}" class="btn btn-primary">View Products</a>
         <a href="{% url 'cart' %}" class="btn btn-primary">Personal Cart</a>
     </form>
+
 {% endblock %}

@@ -1,5 +1,3 @@
-
-
 from django.urls import path
 
 from . import views
@@ -17,5 +15,3 @@ urlpatterns = [
     path('login/', views.user_login, name='login'),
     path('logout/', views.user_logout, name='logout')
 ]
-
-#each url, when matched with the request, calls the corrisponding view function dinamically (product ids)
